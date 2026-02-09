@@ -5,6 +5,7 @@ export type Subscription = {
   user_id: number;
   product_name: string;
   category_id: number;
+  amount: number;
   frequency: string;
   category?: Category;
   created_at: string;

@@ -2,70 +2,46 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Calendar, PieChart, Settings, Home, User } from 'lucide-react';
+import { Calendar, PieChart, Settings, Home } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
 
   const isActive = (path: string) => {
-    return pathname === path ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600 hover:bg-gray-50';
+    return pathname === path ? 'text-indigo-600' : 'text-gray-400 hover:text-gray-600';
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 mb-8 sticky top-0 z-50">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-indigo-600">
-            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              家計簿アプリ
-            </span>
-          </Link>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex gap-4">
-            <Link
-              href="/"
-              className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${isActive('/')}`}
-            >
-              <Home className="mr-2" size={20} />
-              ホーム
-            </Link>
-            <Link
-              href="/notes"
-              className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${isActive('/notes')}`}
-            >
-              <Calendar className="mr-2" size={20} />
-              記録
-            </Link>
-            <Link
-              href="/report"
-              className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${isActive('/report')}`}
-            >
-              <PieChart className="mr-2" size={20} />
-              分析
-            </Link>
-            <Link
-              href="/setting"
-              className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${isActive('/setting')}`}
-            >
-              <Settings className="mr-2" size={20} />
-              設定・サブスク
-            </Link>
-          </div>
-
-          {/* Mobile Menu (Simplified for now) */}
-          <div className="md:hidden flex gap-2">
-            <Link href="/notes" className={`p-2 rounded-lg ${isActive('/notes')}`}>
-              <Calendar size={24} />
-            </Link>
-            <Link href="/report" className={`p-2 rounded-lg ${isActive('/report')}`}>
-              <PieChart size={24} />
-            </Link>
-            <Link href="/setting" className={`p-2 rounded-lg ${isActive('/setting')}`}>
-              <Settings size={24} />
-            </Link>
-          </div>
-        </div>
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-gray-200 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div className="container mx-auto px-4 max-w-7xl h-16 flex items-center justify-around md:justify-center md:gap-16">
+        <Link
+          href="/"
+          className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/')}`}
+        >
+          <Home size={24} className="mb-1" />
+          <span className="text-[10px] font-medium">ホーム</span>
+        </Link>
+        <Link
+          href="/notes"
+          className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/notes')}`}
+        >
+          <Calendar size={24} className="mb-1" />
+          <span className="text-[10px] font-medium">記録</span>
+        </Link>
+        <Link
+          href="/report"
+          className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/report')}`}
+        >
+          <PieChart size={24} className="mb-1" />
+          <span className="text-[10px] font-medium">分析</span>
+        </Link>
+        <Link
+          href="/setting"
+          className={`flex flex-col items-center justify-center w-16 h-full transition-colors ${isActive('/setting')}`}
+        >
+          <Settings size={24} className="mb-1" />
+          <span className="text-[10px] font-medium">設定</span>
+        </Link>
       </div>
     </nav>
   );

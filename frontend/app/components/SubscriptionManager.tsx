@@ -19,6 +19,7 @@ export default function SubscriptionManager({ initialSubscriptions, categories, 
     user_id: 1,
     product_name: '',
     category_id: categories[0]?.id || 1,
+    amount: 0,
     frequency: 'monthly',
   });
 
@@ -43,6 +44,7 @@ export default function SubscriptionManager({ initialSubscriptions, categories, 
         user_id: 1,
         product_name: '',
         category_id: categories[0]?.id || 1,
+        amount: 0,
         frequency: 'monthly',
       });
     } catch (error) {
@@ -66,7 +68,7 @@ export default function SubscriptionManager({ initialSubscriptions, categories, 
 
       {showSubscriptionForm && (
         <form onSubmit={handleCreateSubscription} className="mb-8 p-6 bg-gray-50 rounded-xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label htmlFor="sub-name" className="block text-sm font-medium text-gray-700 mb-2">商品名</label>
               <input
@@ -74,6 +76,17 @@ export default function SubscriptionManager({ initialSubscriptions, categories, 
                 type="text"
                 value={newSubscription.product_name}
                 onChange={(e) => setNewSubscription({ ...newSubscription, product_name: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="sub-amount" className="block text-sm font-medium text-gray-700 mb-2">金額</label>
+              <input
+                id="sub-amount"
+                type="number"
+                value={newSubscription.amount}
+                onChange={(e) => setNewSubscription({ ...newSubscription, amount: parseInt(e.target.value) })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 required
               />
@@ -140,7 +153,11 @@ export default function SubscriptionManager({ initialSubscriptions, categories, 
             >
               <div>
                 <p className="font-semibold text-gray-800">{sub.product_name}</p>
-                <p className="text-sm text-gray-500">{sub.frequency === 'monthly' ? '月額' : '年額'}</p>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <span>{sub.frequency === 'monthly' ? '月額' : '年額'}</span>
+                  <span>·</span>
+                  <span className="font-medium text-gray-700">¥{sub.amount?.toLocaleString() || 0}</span>
+                </div>
               </div>
               <div className="text-right">
                 <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
