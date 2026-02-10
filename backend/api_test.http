@@ -45,3 +45,40 @@ Content-Type: application/json
 ###
 # ユーザー削除（ID: 5 - 伊藤健太）
 DELETE {{baseUrl}}/api/users/5
+
+
+###
+
+
+
+###
+# サブスクリプション作成
+POST {{baseUrl}}/api/subscriptions
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "product_name": "Netflix",
+  "category_id": 1,
+  "amount": 1490,
+  "frequency": "monthly"
+}
+
+###
+# 全サブスクリプション取得
+GET {{baseUrl}}/api/subscriptions
+
+###
+# 特定サブスクリプションの更新（ID: 1）
+PUT {{baseUrl}}/api/subscriptions/3
+Content-Type: application/json
+
+{
+  "product_name": "Netflix Premiumfad",
+  "amount": 1990,
+  "frequency": "monthly"
+}
+
+###
+# 特定サブスクリプションの削除（ID: 1）
+DELETE {{baseUrl}}/api/subscriptions/3

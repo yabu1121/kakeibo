@@ -57,6 +57,7 @@ func main() {
 	// 実際の運用ではマイグレーションツール(golang-migrateなど)の使用を検討してください。
 	if err := db.AutoMigrate(
 		&models.User{},
+		&models.Subscription{},
 	); err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
@@ -71,6 +72,7 @@ func main() {
 
 	// ハンドラー初期化
 	userHandler := handlers.UserHandlers{DB: db}
+	subscriptionHandler := handlers.SubscriptionHandlers{DB: db}
 
 	// ルーティング
 	e.GET("/", func(c echo.Context) error {
@@ -83,6 +85,12 @@ func main() {
 	api.GET("/users", userHandler.GetUsers)
 	api.PUT("/users/:id", userHandler.UpdateUser)
 	api.DELETE("/users/:id", userHandler.DeleteUser)
+
+	// Subscription routes
+	api.POST("/subscriptions", subscriptionHandler.CreateSubscription)
+	api.GET("/subscriptions", subscriptionHandler.GetSubscription)
+	api.PUT("/subscriptions/:id", subscriptionHandler.UpdateSubscription)
+	api.DELETE("/subscriptions/:id", subscriptionHandler.DeleteSubscription)
 
 	// サーバー起動
 	port := getEnv("PORT", "8080")
