@@ -1,0 +1,32 @@
+フォルダー パスの一覧:  ボリューム TIH0771000A
+ボリューム シリアル番号は 94BF-DA33 です
+C:.
+│  .gitignore
+│  api_test.http
+│  docker-compose.yml
+│  Dockerfile
+│  generate.ps1
+│  generate.sh
+│  go.mod
+│  go.sum
+│  memo.txt
+│  
+├─cmd
+│  └─api
+│          main.go
+│          
+├─handlers
+│      category.go
+│      expense.go
+│      public_utility.go
+│      subscription.go
+│      user.go
+│      
+└─models
+        base_model.go
+        category.go
+        expense.go
+        public_utility.go
+        subscription.go
+        user.go
+        

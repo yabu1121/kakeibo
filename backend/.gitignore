@@ -1,0 +1,11 @@
+# Go
+bin/
+*.exe
+*.test
+coverage.out
+vendor/
+.DS_Store
+.idea
+.vscode
+*.log
+*.tmp

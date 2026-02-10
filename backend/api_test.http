@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:8080
+
+###
+# ヘルスチェック
+GET {{baseUrl}}
+
+###
+# ユーザー作成（新規）
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{
+  "name": "新規ユーザー",
+  "real_name": "新規太郎",
+  "email": "newuser@example.com",
+  "password": "password123",
+  "icon": "https://i.pravatar.cc/150?img=10",
+  "profile_memo": "新しく登録したユーザーです"
+}
+
+###
+# 全ユーザー取得
+GET {{baseUrl}}/api/users
+
+###
+# 特定ユーザーの更新（ID: 1 - 田中太郎）
+PUT {{baseUrl}}/api/users/1
+Content-Type: application/json
+
+{
+  "name": "田中太郎（更新済み）",
+  "email": "tanaka_updated@example.com"
+}
+
+###
+# 特定ユーザーの更新（ID: 2 - 佐藤花子）
+PUT {{baseUrl}}/api/users/2
+Content-Type: application/json
+
+{
+  "name": "佐藤花子（プロフィール更新）",
+  "email": "sato_new@example.com"
+}
+
+###
+# ユーザー削除（ID: 5 - 伊藤健太）
+DELETE {{baseUrl}}/api/users/5
