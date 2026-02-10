@@ -1,9 +1,10 @@
 import { Category } from "@/types/category";
 import { Expense } from "@/types/expenses";
 import { Subscription } from "@/types/subscription";
+import { PublicUtility } from "@/types/public_utility";
 import { User } from "@/types/user";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8081/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
 // API Client
 class ApiClient {
@@ -94,6 +95,36 @@ class ApiClient {
     return this.request<Subscription>('/subscriptions', {
       method: 'POST',
       body: JSON.stringify(subscription),
+    });
+  }
+
+  // Public utility APIs
+  async getPublicUtilities(params?: { user_id?: number; category_id?: number }): Promise<PublicUtility[]> {
+    const query = new URLSearchParams();
+    if (params?.user_id !== undefined) query.set('user_id', String(params.user_id));
+    if (params?.category_id !== undefined) query.set('category_id', String(params.category_id));
+    const qs = query.toString();
+    const endpoint = qs ? `/public-utilities?${qs}` : '/public-utilities';
+    return this.request<PublicUtility[]>(endpoint);
+  }
+
+  async createPublicUtility(utility: Omit<PublicUtility, 'id' | 'created_at' | 'updated_at' | 'category'>): Promise<PublicUtility> {
+    return this.request<PublicUtility>('/public-utilities', {
+      method: 'POST',
+      body: JSON.stringify(utility),
+    });
+  }
+
+  async updatePublicUtility(id: number, utility: Partial<Omit<PublicUtility, 'id' | 'created_at' | 'updated_at' | 'category'>>): Promise<PublicUtility> {
+    return this.request<PublicUtility>(`/public-utilities/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(utility),
+    });
+  }
+
+  async deletePublicUtility(id: number): Promise<void> {
+    await this.request<void>(`/public-utilities/${id}`, {
+      method: 'DELETE',
     });
   }
 }
