@@ -73,6 +73,7 @@ func main() {
 	// ハンドラー初期化
 	userHandler := handlers.UserHandlers{DB: db}
 	subscriptionHandler := handlers.SubscriptionHandlers{DB: db}
+	categoryHandler := handlers.CategoryHandlers{DB: db}
 
 	// ルーティング
 	e.GET("/", func(c echo.Context) error {
@@ -91,6 +92,11 @@ func main() {
 	api.GET("/subscriptions", subscriptionHandler.GetSubscription)
 	api.PUT("/subscriptions/:id", subscriptionHandler.UpdateSubscription)
 	api.DELETE("/subscriptions/:id", subscriptionHandler.DeleteSubscription)
+
+	api.POST("/category", categoryHandler.CreateCategory)
+	api.GET("/category", categoryHandler.GetCategory)
+	api.PUT("/category", categoryHandler.UpdateCategory)
+	api.DELETE("/category", categoryHandler.DeleteCategory)
 
 	// サーバー起動
 	port := getEnv("PORT", "8080")
