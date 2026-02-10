@@ -62,7 +62,6 @@ export default function NotesPage() {
 
   return (
     <div className="space-y-8">
-      {/* 消費記録セクション */}
       <div className="bg-white rounded-2xl shadow-lg p-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">消費記録</h2>
