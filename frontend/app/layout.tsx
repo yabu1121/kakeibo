@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
           <Navbar />
-          <main className="container mx-auto px-4 pb-24 max-w-7xl">
+          <main className="container mx-auto px-4 pb-24 max-w-7xl pt-10">
             {children}
           </main>
         </div>

@@ -107,11 +107,11 @@ export default function AnalysisReport({ initialCategories }: AnalysisReportProp
         {/* 分析タイプ切り替え */}
         <div className="flex flex-wrap gap-2 mb-6">
           {[
-            { type: 'day', label: '日次' },
-            { type: 'week', label: '週次' },
-            { type: 'month', label: '月次' },
-            { type: 'year', label: '年次' },
-            { type: 'category', label: 'カテゴリー' },
+            { type: 'day', label: '日' },
+            { type: 'week', label: '週' },
+            { type: 'month', label: '月' },
+            { type: 'year', label: '年' },
+            { type: 'category', label: 'カテゴリ' },
           ].map((item) => (
             <button
               key={item.type}

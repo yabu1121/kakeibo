@@ -22,10 +22,13 @@ export default function ExpenseForm({ categories, onExpenseAdded, onOpenCategory
   });
 
   useEffect(() => {
-    if (categories.length > 0 && newExpense.category_id === 1) {
-      setNewExpense(prev => ({ ...prev, category_id: categories[0].id }));
+    if (categories.length > 0) {
+      const isValidCategory = categories.some(cat => cat.id === newExpense.category_id);
+      if (!isValidCategory) {
+        setNewExpense(prev => ({ ...prev, category_id: categories[0].id }));
+      }
     }
-  }, [categories]);
+  }, [categories, newExpense.category_id]);
 
   const handleCreateExpense = async (e: React.FormEvent) => {
     e.preventDefault();

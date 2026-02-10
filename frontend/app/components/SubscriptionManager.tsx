@@ -28,10 +28,14 @@ export default function SubscriptionManager({ initialSubscriptions, categories, 
   }, [initialSubscriptions]);
 
   useEffect(() => {
-    if (categories.length > 0 && newSubscription.category_id === 1) {
-      setNewSubscription(prev => ({ ...prev, category_id: categories[0].id }));
+    if (categories.length > 0) {
+      // 現在選択されているカテゴリーIDが有効かチェック
+      const isValidCategory = categories.some(cat => cat.id === newSubscription.category_id);
+      if (!isValidCategory) {
+        setNewSubscription(prev => ({ ...prev, category_id: categories[0].id }));
+      }
     }
-  }, [categories]);
+  }, [categories, newSubscription.category_id]);
 
   const handleCreateSubscription = async (e: React.FormEvent) => {
     e.preventDefault();
