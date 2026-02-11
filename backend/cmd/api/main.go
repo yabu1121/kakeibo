@@ -74,6 +74,7 @@ func main() {
 	userHandler := handlers.UserHandlers{DB: db}
 	subscriptionHandler := handlers.SubscriptionHandlers{DB: db}
 	categoryHandler := handlers.CategoryHandlers{DB: db}
+	expenseHandler := handlers.ExpenseHandlers{DB: db}
 
 	// ルーティング
 	e.GET("/", func(c echo.Context) error {
@@ -98,6 +99,10 @@ func main() {
 	api.PUT("/category", categoryHandler.UpdateCategory)
 	api.DELETE("/category", categoryHandler.DeleteCategory)
 
+	api.POST("/expense", expenseHandler.CreateExpense)
+	api.GET("/expense", expenseHandler.GetExpense)
+	api.PUT("/expense/:id", expenseHandler.UpdateExpense)
+	api.DELETE("/expense/:id", expenseHandler.DeleteExpense)
 	// サーバー起動
 	port := getEnv("PORT", "8080")
 	e.Logger.Fatal(e.Start(":" + port))
