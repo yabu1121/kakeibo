@@ -38,49 +38,20 @@ func main() {
 	}
 
 	// サンプルユーザーデータ
-	users := []models.User{
-		{
-			Name:        "田中太郎",
-			RealName:    "田中太郎",
-			Email:       "tanaka@example.com",
-			Password:    "password123",
-			Icon:        "https://i.pravatar.cc/150?img=1",
-			ProfileMemo: "家計簿アプリの管理者です。節約が趣味です。",
-		},
-		{
-			Name:        "佐藤花子",
-			RealName:    "佐藤花子",
-			Email:       "sato@example.com",
-			Password:    "password123",
-			Icon:        "https://i.pravatar.cc/150?img=2",
-			ProfileMemo: "投資と貯金に興味があります。",
-		},
-		{
-			Name:        "鈴木一郎",
-			RealName:    "鈴木一郎",
-			Email:       "suzuki@example.com",
-			Password:    "password123",
-			Icon:        "https://i.pravatar.cc/150?img=3",
-			ProfileMemo: "毎月の支出を見える化したいです。",
-		},
-		{
-			Name:        "高橋美咲",
-			RealName:    "高橋美咲",
-			Email:       "takahashi@example.com",
-			Password:    "password123",
-			Icon:        "https://i.pravatar.cc/150?img=4",
-			ProfileMemo: "家族の家計を管理しています。",
-		},
-		{
-			Name:        "伊藤健太",
-			RealName:    "伊藤健太",
-			Email:       "ito@example.com",
-			Password:    "password123",
-			Icon:        "https://i.pravatar.cc/150?img=5",
-			ProfileMemo: "副業の収支も管理したいです。",
-		},
+	for i := 1; i <= 10000; i++ {
+		users := []models.User{
+			{
+				Name:        "田中太郎",
+				RealName:    "田中太郎",
+				Email:       "tanaka@example.com" + string(i),
+				Password:    "password123",
+				Icon:        "https://i.pravatar.cc/150?img=" + string(i),
+				ProfileMemo: "家計簿アプリの管理者です。節約が趣味です。",
+			},
+		}
 	}
 
+	
 	// ユーザーデータを挿入
 	for _, user := range users {
 		if err := db.Create(&user).Error; err != nil {

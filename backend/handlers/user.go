@@ -19,7 +19,7 @@ func (h *UserHandlers) CreateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid request"})
 	}
 	if err := h.DB.Create(&user).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Database error"})
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "internal server error"})
 	}
 	return c.JSON(http.StatusOK, user)
 }
@@ -29,12 +29,36 @@ func (h *UserHandlers) CreateUser(c echo.Context) error {
 func (h *UserHandlers) GetUsers(c echo.Context) error {
 	user := []models.User{}
 	if err := h.DB.Find(&user).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "internal server error"})
 	}
 	return c.JSON(http.StatusOK, user)
 }
 
 
+//GET by id
+func (h *UserHandlers) GetUserById(c echo.Context) error {
+	id := c.Param("id")
+	if id == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "id is required"})
+	}
+	user := models.User{}
+	if err := h.DB.First(&user, id).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "internal server error"})
+	}
+	return c.JSON(http.StatusOK, user)
+}
+
+func (h *UserHandlers) SearchUser(c echo.Context) error {
+	name := c.QueryParam("name")
+	if name == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "name is required"})
+	}
+	users := []models.User{}
+	if err := h.DB.Where("name LIKE ?", "%" + name + "%").Find(&users).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "internal server error"})
+	}
+	return c.JSON(http.StatusOK, users)
+}
 
 // UPDATE(PUT)
 func (h *UserHandlers) UpdateUser(c echo.Context) error {

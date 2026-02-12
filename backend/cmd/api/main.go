@@ -89,6 +89,8 @@ func main() {
 	// User routes
 	api.POST("/users", userHandler.CreateUser)
 	api.GET("/users", userHandler.GetUsers)
+	api.GET("/users/search", userHandler.SearchUser)
+	api.GET("/users/:id", userHandler.GetUserById)
 	api.PUT("/users/:id", userHandler.UpdateUser)
 	api.DELETE("/users/:id", userHandler.DeleteUser)
 
