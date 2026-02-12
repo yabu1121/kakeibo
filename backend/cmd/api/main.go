@@ -58,6 +58,9 @@ func main() {
 	if err := db.AutoMigrate(
 		&models.User{},
 		&models.Subscription{},
+		&models.Category{},
+		&models.Expense{},
+		&models.ScrapedItem{},
 	); err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
@@ -75,6 +78,7 @@ func main() {
 	subscriptionHandler := handlers.SubscriptionHandlers{DB: db}
 	categoryHandler := handlers.CategoryHandlers{DB: db}
 	expenseHandler := handlers.ExpenseHandlers{DB: db}
+	scraperHandler := handlers.ScraperHandlers{DB: db}
 
 	// ルーティング
 	e.GET("/", func(c echo.Context) error {
@@ -99,10 +103,14 @@ func main() {
 	api.PUT("/category", categoryHandler.UpdateCategory)
 	api.DELETE("/category", categoryHandler.DeleteCategory)
 
-	api.POST("/expense", expenseHandler.CreateExpense)
-	api.GET("/expense", expenseHandler.GetExpense)
-	api.PUT("/expense/:id", expenseHandler.UpdateExpense)
-	api.DELETE("/expense/:id", expenseHandler.DeleteExpense)
+	api.POST("/expenses", expenseHandler.CreateExpense)
+	api.GET("/expenses", expenseHandler.GetExpense)
+	api.PUT("/expenses/:id", expenseHandler.UpdateExpense)
+	api.DELETE("/expenses/:id", expenseHandler.DeleteExpense)
+
+	// Scraper routes
+	api.POST("/scrape", scraperHandler.ScrapeProducts)
+	api.GET("/scrape/guide", scraperHandler.GetScrapingGuide)
 	// サーバー起動
 	port := getEnv("PORT", "8080")
 	e.Logger.Fatal(e.Start(":" + port))
