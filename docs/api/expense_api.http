@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:8080
+
+### 全支出取得
+GET {{baseUrl}}/api/expenses
+
+### 支出作成
+POST {{baseUrl}}/api/expenses
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "category_id": 1,
+  "amount": 1490,
+  "date": "2023-01-01",
+  "memo": "Netflix"
+}
+
+### 支出更新
+PUT {{baseUrl}}/api/expenses/1
+Content-Type: application/json
+
+{
+  "amount": 1500,
+  "memo": "Netflix（更新）"
+}
+
+### 支出削除
+DELETE {{baseUrl}}/api/expenses/1
