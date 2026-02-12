@@ -38,27 +38,24 @@ func main() {
 	}
 
 	// サンプルユーザーデータ
+	// サンプルユーザーデータ
+	var users []models.User
 	for i := 1; i <= 10000; i++ {
-		users := []models.User{
-			{
-				Name:        "田中太郎",
-				RealName:    "田中太郎",
-				Email:       "tanaka@example.com" + string(i),
-				Password:    "password123",
-				Icon:        "https://i.pravatar.cc/150?img=" + string(i),
-				ProfileMemo: "家計簿アプリの管理者です。節約が趣味です。",
-			},
-		}
+		users = append(users, models.User{
+			Name:        fmt.Sprintf("田中太郎%d", i),
+			RealName:    "田中太郎",
+			Email:       fmt.Sprintf("tanaka_%d@example.com", i),
+			Password:    "password123",
+			Icon:        fmt.Sprintf("https://i.pravatar.cc/150?img=%d", i),
+			ProfileMemo: "家計簿アプリの管理者です。節約が趣味です。",
+		})
 	}
 
-	
-	// ユーザーデータを挿入
-	for _, user := range users {
-		if err := db.Create(&user).Error; err != nil {
-			log.Printf("ユーザー作成エラー (%s): %v", user.Email, err)
-		} else {
-			log.Printf("✓ ユーザー作成成功: %s (%s)", user.Name, user.Email)
-		}
+	// ユーザーデータを一括挿入（バッチサイズ100）
+	if err := db.CreateInBatches(&users, 100).Error; err != nil {
+		log.Printf("ユーザー作成エラー: %v", err)
+	} else {
+		log.Println("✓ ユーザー作成成功")
 	}
 
 	log.Println("サンプルデータの作成が完了しました！")

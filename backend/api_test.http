@@ -18,16 +18,19 @@ Content-Type: application/json
   "profile_memo": "新しく登録したユーザーです"
 }
 
-### 全ユーザー取得
+### 全ユーザー取得 重くて取得できない。
 GET {{baseUrl}}/api/users
 
 
 ### 特定ユーザーの取得（ID: 3）
 GET {{baseUrl}}/api/users/4
 
-###
+### 特定ユーザーの取得（名前: 田中太郎206）
+GET {{baseUrl}}/api/users/search?name=田中太郎206
 
-GET {{baseUrl}}/api/users/search?name=高橋美咲
+### ページネーションでの取得
+GET {{baseUrl}}/api/users?page=50&limit=20
+
 ###
 # 特定ユーザーの更新（ID: 1 - 田中太郎）
 PUT {{baseUrl}}/api/users/1
