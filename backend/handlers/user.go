@@ -113,3 +113,16 @@ func (h *UserHandlers) DeleteUser(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, nil)
 }
+
+
+func (h *UserHandlers) GetUserWithExpense(c echo.Context) error {
+	userId := c.Param("user_id")
+	if userId == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "id is required"})
+	}
+	user := models.User{}
+	if err := h.DB.Preload("Expense").First(&user, userId).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "internal server error"})
+	}
+	return c.JSON(http.StatusOK, user)
+}

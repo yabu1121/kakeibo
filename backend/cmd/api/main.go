@@ -89,9 +89,9 @@ func main() {
 	// User routes
 	api.POST("/users", userHandler.CreateUser)
 	api.GET("/users", userHandler.GetUserWithPagination)
-	// api.GET("/users", userHandler.GetUsers)
 	api.GET("/users/search", userHandler.SearchUser)
 	api.GET("/users/:id", userHandler.GetUserById)
+	api.GET("/users/:user_id/expense", userHandler.GetUserWithExpense)
 	api.PUT("/users/:id", userHandler.UpdateUser)
 	api.DELETE("/users/:id", userHandler.DeleteUser)
 
@@ -103,11 +103,12 @@ func main() {
 
 	api.POST("/category", categoryHandler.CreateCategory)
 	api.GET("/category", categoryHandler.GetCategory)
-	api.PUT("/category", categoryHandler.UpdateCategory)
-	api.DELETE("/category", categoryHandler.DeleteCategory)
+	api.PUT("/category/:id", categoryHandler.UpdateCategory)
+	api.DELETE("/category/:id", categoryHandler.DeleteCategory)
 
 	api.POST("/expenses", expenseHandler.CreateExpense)
 	api.GET("/expenses", expenseHandler.GetExpense)
+	api.GET("/expenses/:date", expenseHandler.GetExpenseByDate)
 	api.PUT("/expenses/:id", expenseHandler.UpdateExpense)
 	api.DELETE("/expenses/:id", expenseHandler.DeleteExpense)
 
