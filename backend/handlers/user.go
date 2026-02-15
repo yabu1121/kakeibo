@@ -15,9 +15,19 @@ type UserHandler struct {
 
 // CREATE
 func (h *UserHandler) CreateUser(c echo.Context) error {
-	user := models.User{}
-	if err := c.Bind(&user); err != nil {
+	type CreateUserRequest struct {
+		Name string `json:"name"`
+		Email string `json:"email"`
+		Password string `json:"password"`
+	}
+	req := CreateUserRequest{}
+	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	user := models.User{
+		Name: req.Name,
+		Email: req.Email,
+		Password: req.Password,
 	}
 	if err := h.DB.Create(&user).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
@@ -31,6 +41,17 @@ func (h *UserHandler) CreateUser(c echo.Context) error {
 func (h *UserHandler) GetAllUser(c echo.Context) error {
 	user := []models.User{}
 	if err := h.DB.Find(&user).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, user)
+}
+
+
+// GET BY NAME
+func (h *UserHandler) GetUserByName (c echo.Context) error {
+	name := c.Param("name")
+	var user []models.User
+	if err := h.DB.Find(&user, "name LIKE ?", "%" + name + "%").Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, user)
@@ -61,9 +82,16 @@ func (h *UserHandler) UpdateUser(c echo.Context) error {
         }
         return c.JSON(http.StatusInternalServerError, err.Error())
     }
-    if err := c.Bind(&user); err != nil {
+    type UpdateUserRequest struct {
+        Name  string `json:"name"`
+        Email string `json:"email"`
+    }
+    req := UpdateUserRequest{}
+    if err := c.Bind(&req); err != nil {
         return c.JSON(http.StatusBadRequest, err.Error())
     }
+    user.Name = req.Name
+    user.Email = req.Email
     if err := h.DB.Save(&user).Error; err != nil {
         return c.JSON(http.StatusInternalServerError, err.Error())
     }
